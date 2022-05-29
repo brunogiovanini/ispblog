@@ -10,6 +10,7 @@ math: no
 license: INSIGHTS ON SPORTS PERFORMANCE
 hidden: no
 comments: no
+draft: no
 ---
 
 # Heading 2 faz aparecer índice ao lado.
