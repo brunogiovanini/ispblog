@@ -1,4 +1,4 @@
-baseurl: https://isp.netlify.app
+baseurl: https://blogisp.netlify.app
 languageCode: en-us
 theme: "hugo-theme-stack"
 paginate: 5
