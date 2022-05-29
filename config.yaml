@@ -4,6 +4,8 @@ theme: "hugo-theme-stack"
 paginate: 5
 title: Insights on Sports Performance
 
+draft: no
+
 # Change it to your Disqus shortname before using
 disqusShortname: hugo-theme-stack
 
