@@ -19,7 +19,7 @@ DefaultContentLanguage: pt-br
 hasCJKLanguage: false
 
 permalinks:
-    post: /p/:slug/
+    post: /post/:slug/
     page: /:slug/
 
 params:
