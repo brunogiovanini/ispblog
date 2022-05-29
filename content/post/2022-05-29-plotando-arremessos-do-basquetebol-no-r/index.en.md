@@ -1,6 +1,6 @@
 ---
 title: 'Plotando arremessos do basquetebol no R'
-date: "2022-07-10"
+date: "2022-03-10"
 slug: 'plotando-arremessos-do-basquetebol-no-r'
 categories: ["Tutoriais em R"]
 tags: ["R"]
