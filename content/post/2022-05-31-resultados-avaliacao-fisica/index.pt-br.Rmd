@@ -1,0 +1,146 @@
+---
+title: Resultado da avalição física e diferença entre atletas no R
+author: ''
+date: '2022-05-31'
+slug: resultados-avaliacao-fisica
+categories:
+  - Tutoriais em R
+tags:
+  - R
+description: ~
+image: ~
+math: ~
+license: ~
+hidden: no
+comments: yes
+---
+
+Quando avaliamos um grupo de atletas, precisamos saber quais as principais características de cada um(a) e as principais diferenças entre eles(as). Para isso, existem algumas maneiras de processamento e visualização dos dados que nos trazem essas informações de maneira rápida e intuitiva. 
+
+Vamos dar uma olhada em algumas informações antropométricas e de desempenho do **NBA Draft Combine** para avaliar os resultados e visualizar as diferenças entre atletas. Para comparar os jogadores, precisamos de uma medida padronizada pelo grupo. Para esse fim usaremos o T-Score (uma versão modificada do Z-Score).
+
+### Processando os dados
+
+Eu selecionei apenas os dados de 2013 e as seguintes variáveis: **altura (cm)**, **massa (Kg)**, **envergadura (cm)**, **altura de salto (parado)**, **altura de salto (em movimento)**, **repetições no supino**, **teste de agilidade** e **sprint**. Depois de carregar os dados no R (download aqui), vamos dar uma olhada nas primeiras linhas:
+
+```{r echo = FALSE, message = FALSE, results= FALSE}
+
+library(tidyverse)
+library(reshape2)
+
+draft <- read.csv("C:/Users/bruno/Documents/nba_draft_combine_all_years.csv")
+draft <- draft %>% filter(Year == 2013) %>%
+  # Selecionando as variáveis de interesse
+  select(Player, Year, Height..No.Shoes., Wingspan, Vertical..Max., Vertical..No.Step., Weight, Bench, Agility, Sprint) %>%
+  # Alterando os nomes e convertendo as variáveis para o sistema métrico
+  mutate(Atleta = Player,
+         Ano = Year,
+         Altura = Height..No.Shoes.*2.54,
+         Envergadura = Wingspan*2.54,
+         `Altura de salto (em movimento)` = Vertical..Max.*2.54,
+         `Altura de salto (parado)` = Vertical..No.Step.* 2.54,
+         Massa = Weight*0.45359237,
+         Agilidade = Agility,
+         Supino = Bench) %>%
+  # Selecionado as variáveis transformadas
+  select(Atleta, Ano, Altura, Envergadura, Massa, Supino, Agilidade, Sprint, `Altura de salto (em movimento)`, `Altura de salto (parado)`)
+```
+
+```{r}
+knitr::kable(head(draft,6), format = "html")
+```
+
+O próximo passo agora é normalizar essas variáveis para que possamos fazer comparações entre os atletas em relação a média do grupo. Para fazer isso, vamos por etapas. Primeiro, vamos utilizar a função `scale()` para transformar nossas variáveis em Z-Score (a função fará isso separadamente para cada coluna que indicarmos).
+
+```{r}
+draft[,3:10] <- scale(draft[,3:10])
+```
+
+Em seguida, vamos transformar esses valores em T-Scores.
+
+```{r}
+draft[,3:10] <- (draft[,3:10] * 10) + 50
+```
+
+Temos agora os T-Scores de cada variável para todos os atletas. O valor 50 representa a média do grupo (Z-Score = 0) e a distância de 10 unidades representa 1 desvio-padrão (DP) acima ou abaixo da média. Portanto, no T-Score, é comum que a maior parte dos valores caiam entre 30 e 80 (até 3 DP).
+
+Precisamos lembrar que algumas das variáveis selecionadas estão em tempo (s) e, nos nossos testes, o menor tempo indica um melhor desempenho (ao contrário de outras medidas em altura ou número de repetições). Portanto, para que as os T-Scores indiquem igualmente a condição de um desempenho "bom" ou "ruim", inverteremos (100 - T-Score) os valores das variáveis medidas em tempo. Dessa forma, temos que valores acima de 50 representam um "desempenho" acima da média. Vamos dar uma olhada no que temos até agora:
+
+```{r echo = FALSE, message = FALSE, results= FALSE}
+draft[,7:8] <- 100 - draft[,7:8]
+```
+
+```{r}
+knitr::kable(head(draft,11), format = "html")
+```
+
+Quase tudo pronto para plotarmos. Antes disso, precisamos colocar os dados em uma estrutura diferente. Ao invés de termos uma coluna para cada variável, nós "empilharemos" essas informações e repetiremos as informações que identificam cada atleta (Atleta e Ano). O comprimento dos dados ficará bem mais longo mas essa estrutura nos ajudará na hora de plotarmos nossos gráficos. Para fazer isso, utilizaremos a função `melt()` do pacote `reshape2`.
+
+```{r}
+library(reshape2)
+
+df <- melt(draft, # Nossos dados até agora
+           id.vars = c("Atleta", "Ano"), # Variáveis de identificação
+           variable.name = "Variavel", # Nome da coluna das variaveis
+           value.name = "TS") # Nome da coluna dos valores de cada variavel
+```
+
+### Visualizando os dados
+
+Para visualizar esses dados, utlizaremos um ["gráfico de barras circular"](https://r-graph-gallery.com/web-circular-barplot-with-R-and-ggplot2.html) que cairá muito bem aos nossos objetivos. Para construir esse tipo de gráfico, vamos utilizar o pacote `ggplot2` - que está dentro pacote `tidyverse`.
+
+Vamos começar a construir o gráfico utilizando apenas os dados de um atleta:
+
+```{r}
+library(tidyverse)
+
+df %>% filter(Atleta %in% head(x = df$Atleta, 1)) %>%
+  ggplot() +
+  geom_col(aes(x = Variavel, y = TS, fill = TS)) +
+  geom_hline(yintercept = 50, linetype = "dashed")
+```
+
+Ainda parece meio bagunçado... mas já fizemos alguma coisa. 😅
+
+Desenhamos uma linha pontilhada indicando o valor 50... então já temos que este atleta está abaixo da média nas variáveis antropométricas e um pouco acima da média na maioria das variáveis de desempenho. Até aí temos algumas informações. Vamos tornar esse gráfico circular utilizando a função `coord_polar()` e exibir o nome do atleta utilizando a função `facet_wrap()`.
+
+```{r}
+
+df %>% filter(Atleta %in% head(x = df$Atleta, 1)) %>%
+  ggplot() +
+  geom_col(aes(x = Variavel, y = TS, fill = TS)) +
+  geom_hline(yintercept = 50, linetype = "dashed") +
+  coord_polar(clip = "off") +
+  facet_wrap(~Atleta)
+```
+
+Estamos chegando lá! Vamos modificar um pouco esse gráfico dando atenção especial aos limites do eixo Y e as cores que indicam a magnitude to T-Score. Como sabemos que a maior parte dos valores cairá entre 20 e 80 (3 DP), podemos definir esses valores como o limite inferior e superior do eixo, respectivamente. E voilà.
+
+```{r}
+df %>% filter(Atleta %in% head(x = df$Atleta, 1)) %>%
+  ggplot() +
+  geom_col(aes(x = Variavel, y = TS, fill = TS), color = "black") +
+  geom_hline(yintercept = 50, linetype = "dashed") +
+  coord_polar(clip = "off", start = .4) +
+  scale_fill_distiller(palette = "RdYlGn", direction = 1,
+                       limits = c(20,80)) +
+  scale_y_continuous(
+    limits = c(-40, 80),
+    expand = c(0, 0),
+    breaks = c(20, 40, 60, 80)
+  ) + 
+  theme_minimal() +
+  facet_grid(~Atleta) +
+  theme(
+    # Removendo os títulos e textos dos eixos
+    axis.title = element_blank(),
+    axis.ticks = element_blank(),
+    axis.text.y = element_blank(),
+    axis.text.x = element_text(size = 8),
+    text = element_text(size = 18),
+    legend.position = "none",
+    panel.spacing = unit(3, "lines")
+  )
+```
+
+Agora que construímos o gráfico utilizando as informações de apenas um atleta e de suas características em relação ao grupo avaliado, podemos brincar com as opções de customização do `ggplot2` e plotar um grupo de atletas lado a lado. Para fazer isso, basta alterar a primeira linha do gráfico onde utilizamos a função `filter()` para selecionar o primeiro atleta da tabela. Com essa mesma função podemos selecionar um ou mais valores de diferentes colunas e exibir os atletas de um determinado grupo, por exemplo.
