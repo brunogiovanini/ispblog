@@ -23,7 +23,7 @@ Hoje nós vamos usar o R para explorar algumas informações antropométricas e 
 
 ### Processando os dados
 
-Eu selecionei apenas os dados de 2013 e as seguintes variáveis: **altura (cm)**, **massa (Kg)**, **envergadura (cm)**, **altura de salto parado (cm)**, **altura de salto em movimento (cm)**, **repetições no supino (n)**, **teste de agilidade (s)** e **sprint (s)**. Depois de carregar os dados no R, vamos dar uma olhada nas primeiras linhas:
+Eu selecionei as seguintes variáveis: **altura (cm)**, **massa (Kg)**, **envergadura (cm)**, **altura de salto parado (cm)**, **altura de salto em movimento (cm)**, **repetições no supino (n)**, **teste de agilidade (s)** e **sprint (s)**. Depois de carregar os dados no R, vamos dar uma olhada nas primeiras linhas:
 
 ```{r echo = FALSE, message = FALSE, results= FALSE}
 
@@ -159,12 +159,75 @@ df %>% filter(Atleta %in% head(x = df$Atleta, 1)) %>%
   )
 ```
 
-Agora que construímos o gráfico utilizando as informações de apenas um atleta e de suas características em relação ao grupo avaliado, podemos brincar com as opções de customização do `ggplot2` e plotar um grupo de atletas lado a lado. Para fazer isso, basta alterar a **primeira linha** do gráfico onde utilizamos a função `filter()` para selecionar o primeiro atleta da tabela. Vamos plotar as 3 primeiras escolhas do NBA Draft de 2010 utlizando essa função (linha baixo) e dar uma olhada no nosso resultado final.
+Agora que construímos o gráfico utilizando as informações de apenas um atleta e de suas características em relação ao grupo avaliado, podemos brincar com as opções de customização do `ggplot2` e plotar um grupo de atletas lado a lado. Para fazer isso, basta alterar a **primeira linha** do gráfico onde utilizamos a função `filter()` para selecionar o primeiro atleta da tabela. Vamos plotar as 3 primeiras escolhas do NBA Draft de 2010 utlizando essa função (linha baixo) - o código completo do gráfico abaixo você encontra no final desse post.
 
 ```{r results = FALSE}
 df %>% filter(Pick %in% c(1:3), Ano == 2010)
 ```
 
+![](images/nbadraft2013-2-01.png)
+
+Vimos que calcular medidas como o Z-Score e T-Score é relativamente fácil no R e elas podem ser muito úteis para comparar os atletas em relação ao grupo avaliado e detectar os "destaques" pra cada variável. Ainda, um gráfico de barras circular pode ser facilmente construído com a função `coord_polar`. A partir daí, podemos brincar com os diferentes parâmetros do `ggplot2` para criar figuras mais eficientes e intuitivas de acordo com os nossos objetivos. Eu recomendo [essa lista de tutoriais](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html) que cobre cada aspecto do `ggplot2`, dependendo tipo de informação que você quer mostrar. Abaixo está a versão final do gráfico, construída alterando alguns desses parâmetros. Bons estudos **🤓**
+
 ![](plot.png)
 
-É relativamente fácil de transformar um gráfico de barras em um gráfico circular com a função `coord_polar`. A partir daí, podemos brincar com os diferentes parâmetros do `ggplot2` para criar figuras mais eficientes e intuitivas de acordo com os nossos objetivos. Eu recomendo [essa lista de tutoriais](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html) que cobre cada aspecto do `ggplot2`, dependendo tipo de informação que você quer mostrar. Bons estudos **🤓**
+*Código do último gráfico:*
+
+```{r results = FALSE, echo = FALSE,}
+library(forcats)
+
+pick.labs = c("Pick #1", "Pick #2", "Pick #3")
+names(pick.labs) <- c(1,2,3)
+
+df %>% filter(Pick %in% c(1:3), Ano == 2010) %>%
+  ggplot() +
+  geom_col(aes(x = Variavel, y = TS, fill = TS), color = "black") +
+  geom_hline(yintercept = 50, linetype = "dashed") +
+  coord_polar(clip = "off", start = .4) +
+  
+  
+  scale_fill_distiller(palette = "RdBu", direction = 1,
+                       limits = c(30,70),
+                       labels = c("Abaixo da média", " ", " ", " ", "Acima da média")) +
+  scale_y_continuous(
+    limits = c(-40, 80),
+    expand = c(0, 0),
+    breaks = c(20, 40, 60, 80)) + 
+  
+  scale_x_discrete(labels=c("Envergadura (cm)" = "Env. (cm)", 
+                            "Salto em mov. (cm)" = "Salto em \n mov. (cm)",
+                            "Salto parado (cm)" = "Salto\nparado(cm)")) +
+  
+  
+  theme_minimal() +
+  
+  facet_wrap(~fct_relevel(Atleta, 'John Wall', 'Evan Turner', 'Derrick Favors') + Pick, 
+             nrow = 1, labeller = labeller(Pick = pick.labs)) +
+  
+  guides(fill=guide_legend(
+    label.position = 'bottom', 
+    title.position = 'top',
+    keywidth=.7,
+    label.theme = element_text(size = 8, color = "black"),
+    title.theme = element_blank(),
+    keyheight= .10,
+    default.unit="inch", 
+    title.hjust = .5,
+    title.vjust = 0,
+    label.vjust = 3,
+    nrow = 1)) +
+
+  theme(
+    # Removendo os títulos e textos dos eixos
+    axis.title = element_blank(),
+    axis.ticks = element_blank(),
+    axis.text.y = element_blank(),
+    axis.text.x = element_text(size = 6, face = "bold", color = "black", vjust = 2),
+    text = element_text(size = 16),
+    legend.position = "bottom",
+    panel.spacing = unit(3, "lines"),
+    legend.spacing.x = unit(0, 'cm'),
+    plot.background = element_rect(fill = "white", color = "white"),
+    strip.text = element_text(size = 12, vjust = 3, face = "bold"),
+  )
+```

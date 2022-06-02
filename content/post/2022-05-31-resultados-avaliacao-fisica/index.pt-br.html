@@ -23,7 +23,7 @@ comments: yes
 <hr />
 <div id="processando-os-dados" class="section level3">
 <h3>Processando os dados</h3>
-<p>Eu selecionei apenas os dados de 2013 e as seguintes variáveis: <strong>altura (cm)</strong>, <strong>massa (Kg)</strong>, <strong>envergadura (cm)</strong>, <strong>altura de salto parado (cm)</strong>, <strong>altura de salto em movimento (cm)</strong>, <strong>repetições no supino (n)</strong>, <strong>teste de agilidade (s)</strong> e <strong>sprint (s)</strong>. Depois de carregar os dados no R, vamos dar uma olhada nas primeiras linhas:</p>
+<p>Eu selecionei as seguintes variáveis: <strong>altura (cm)</strong>, <strong>massa (Kg)</strong>, <strong>envergadura (cm)</strong>, <strong>altura de salto parado (cm)</strong>, <strong>altura de salto em movimento (cm)</strong>, <strong>repetições no supino (n)</strong>, <strong>teste de agilidade (s)</strong> e <strong>sprint (s)</strong>. Depois de carregar os dados no R, vamos dar uma olhada nas primeiras linhas:</p>
 <pre class="r"><code>knitr::kable(head(draft,5), format = &quot;html&quot;, digits = 2)</code></pre>
 <table>
 <thead>
@@ -738,8 +738,12 @@ df %&gt;% filter(Atleta %in% head(x = df$Atleta, 1)) %&gt;%
     panel.spacing = unit(3, &quot;lines&quot;)
   )</code></pre>
 <p><img src="/post/2022-05-31-resultados-avaliacao-fisica/index.pt-br_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-<p>Agora que construímos o gráfico utilizando as informações de apenas um atleta e de suas características em relação ao grupo avaliado, podemos brincar com as opções de customização do <code>ggplot2</code> e plotar um grupo de atletas lado a lado. Para fazer isso, basta alterar a <strong>primeira linha</strong> do gráfico onde utilizamos a função <code>filter()</code> para selecionar o primeiro atleta da tabela. Vamos plotar as 3 primeiras escolhas do NBA Draft de 2010 utlizando essa função (linha baixo) e dar uma olhada no nosso resultado final.</p>
+<p>Agora que construímos o gráfico utilizando as informações de apenas um atleta e de suas características em relação ao grupo avaliado, podemos brincar com as opções de customização do <code>ggplot2</code> e plotar um grupo de atletas lado a lado. Para fazer isso, basta alterar a <strong>primeira linha</strong> do gráfico onde utilizamos a função <code>filter()</code> para selecionar o primeiro atleta da tabela. Vamos plotar as 3 primeiras escolhas do NBA Draft de 2010 utlizando essa função (linha baixo) - o código completo do gráfico abaixo você encontra no final desse post.</p>
 <pre class="r"><code>df %&gt;% filter(Pick %in% c(1:3), Ano == 2010)</code></pre>
+<p><img src="images/nbadraft2013-2-01.png" /></p>
+<p>Vimos que calcular medidas como o Z-Score e T-Score é relativamente fácil no R e elas podem ser muito úteis para comparar os atletas em relação ao grupo avaliado e detectar os “destaques” pra cada variável. Ainda, um gráfico de barras circular pode ser facilmente construído com a função <code>coord_polar</code>. A partir daí, podemos brincar com os diferentes parâmetros do <code>ggplot2</code> para criar figuras mais eficientes e intuitivas de acordo com os nossos objetivos. Eu recomendo <a href="http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html">essa lista de tutoriais</a> que cobre cada aspecto do <code>ggplot2</code>, dependendo tipo de informação que você quer mostrar. Abaixo está a versão final do gráfico, construída alterando alguns desses parâmetros. Bons estudos <strong>🤓</strong></p>
 <p><img src="plot.png" /></p>
-<p>É relativamente fácil de transformar um gráfico de barras em um gráfico circular com a função <code>coord_polar</code>. A partir daí, podemos brincar com os diferentes parâmetros do <code>ggplot2</code> para criar figuras mais eficientes e intuitivas de acordo com os nossos objetivos. Eu recomendo <a href="http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html">essa lista de tutoriais</a> que cobre cada aspecto do <code>ggplot2</code>, dependendo tipo de informação que você quer mostrar. Bons estudos <strong>🤓</strong></p>
+<p><em>Código do último gráfico:</em></p>
+<pre><code>## Warning: Removed 1 rows containing missing values (position_stack).</code></pre>
+<p><img src="/post/2022-05-31-resultados-avaliacao-fisica/index.pt-br_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 </div>
