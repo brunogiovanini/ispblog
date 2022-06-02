@@ -8,7 +8,7 @@ categories:
 tags:
   - R
 description: ~
-image: ~
+image: header.png
 math: ~
 license: ~
 hidden: no
@@ -18,8 +18,8 @@ comments: yes
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
-<p>Quando avaliamos um grupo de atletas, precisamos saber quais as principais características de cada um(a) e as principais diferenças entre eles(as). Para isso, existem algumas maneiras de processamento e visualização dos dados que nos trazem essas informações de maneira rápida e intuitiva.</p>
-<p>Hoje nós vamos usar o R para explorar algumas informações antropométricas e de desempenho do <a href="https://www.nba.com/stats/draft/combine/"><strong>NBA Draft Combine</strong></a> e visualizar as características de cada atleta em relação ao grupo.</p>
+<p>Quando avaliamos um grupo de atletas, precisamos saber quais as principais características de cada um(a) e as principais diferenças entre eles(as). Para isso, existem algumas maneiras de processamento e visualização dos dados que nos trazem essas informações de maneira rápida e intuitiva. Hoje nós vamos usar o R para explorar algumas informações antropométricas e de desempenho do <a href="https://www.nba.com/stats/draft/combine/"><strong>NBA Draft Combine</strong></a> e visualizar as características de cada atleta em relação ao grupo.</p>
+<p>Para isso, passaremos por duas etapas: processamento e visualização dos dados. Na primeira calcularemos uma medida que normalizará os resultados do grupo para que possamos analisar cada atleta em relação a seus pares. Em seguida, alteraremos a estrutura dos nossos dados para uma seja mais amigável para o pacote <code>ggplot2</code> construir nossos gráficos.</p>
 <hr />
 <div id="processando-os-dados" class="section level3">
 <h3>Processando os dados</h3>
@@ -245,9 +245,9 @@ Earl Clark
 <pre class="r"><code>draft[,4:11] &lt;- scale(draft[,4:11])</code></pre>
 <p>Em seguida, vamos transformar esses valores em T-Scores com a fórmula abaixo.</p>
 <pre class="r"><code>draft[,4:11] &lt;- (draft[,4:11] * 10) + 50</code></pre>
-<p>Temos agora os T-Scores de cada variável para todos os atletas. O valor 50 representa a média do grupo (Z-Score = 0) e a distância de 10 unidades representa 1 desvio-padrão (DP) acima ou abaixo da média. Portanto, no T-Score, é comum que a maior parte dos valores caiam entre 30 e 80 (até 3 DP).</p>
+<p>Temos agora os T-Scores de cada variável para todos os atletas. O valor 50 representa a média do grupo (Z-Score = 0) e a distância de 10 unidades representa 1 desvio-padrão (DP) acima ou abaixo da média. Portanto, no T-Score, é comum que a maior parte dos valores caiam entre 20 e 80 (até 3 DP).</p>
 <p>Precisamos lembrar que algumas das variáveis selecionadas estão em tempo (s) e, nos nossos testes, o menor tempo indica um melhor desempenho - ao contrário das outras medidas. Portanto, para que os T-Scores indiquem igualmente a condição de um desempenho “bom” ou “ruim”, inverteremos (100 - T-Score) os valores das variáveis medidas em tempo. Dessa forma, temos que valores acima de 50 representam um “desempenho” acima da média. Vamos dar uma olhada no que temos até agora:</p>
-<pre class="r"><code>knitr::kable(head(draft,11), format = &quot;html&quot;)</code></pre>
+<pre class="r"><code>knitr::kable(head(draft,11), format = &quot;html&quot;, digits = 1)</code></pre>
 <table>
 <thead>
 <tr>
@@ -298,28 +298,28 @@ Blake Griffin
 2009
 </td>
 <td style="text-align:right;">
-58.79270
+58.8
 </td>
 <td style="text-align:right;">
-51.90894
+51.9
 </td>
 <td style="text-align:right;">
-63.43676
+63.4
 </td>
 <td style="text-align:right;">
-73.81457
+73.8
 </td>
 <td style="text-align:right;">
-56.75223
+56.8
 </td>
 <td style="text-align:right;">
-51.53117
+51.5
 </td>
 <td style="text-align:right;">
-51.02012
+51.0
 </td>
 <td style="text-align:right;">
-57.91373
+57.9
 </td>
 </tr>
 <tr>
@@ -333,28 +333,28 @@ Terrence Williams
 2009
 </td>
 <td style="text-align:right;">
-48.14674
+48.1
 </td>
 <td style="text-align:right;">
-46.20272
+46.2
 </td>
 <td style="text-align:right;">
-49.25726
+49.3
 </td>
 <td style="text-align:right;">
-47.49020
+47.5
 </td>
 <td style="text-align:right;">
-53.20074
+53.2
 </td>
 <td style="text-align:right;">
-59.31799
+59.3
 </td>
 <td style="text-align:right;">
-55.23160
+55.2
 </td>
 <td style="text-align:right;">
-52.99950
+53.0
 </td>
 </tr>
 <tr>
@@ -368,28 +368,28 @@ Gerald Henderson
 2009
 </td>
 <td style="text-align:right;">
-45.10504
+45.1
 </td>
 <td style="text-align:right;">
-49.37284
+49.4
 </td>
 <td style="text-align:right;">
-50.06752
+50.1
 </td>
 <td style="text-align:right;">
-45.46525
+45.5
 </td>
 <td style="text-align:right;">
-52.84559
+52.8
 </td>
 <td style="text-align:right;">
-62.43272
+62.4
 </td>
 <td style="text-align:right;">
-49.61629
+49.6
 </td>
 <td style="text-align:right;">
-56.27565
+56.3
 </td>
 </tr>
 <tr>
@@ -403,28 +403,28 @@ Tyler Hansbrough
 2009
 </td>
 <td style="text-align:right;">
-58.03227
+58.0
 </td>
 <td style="text-align:right;">
-52.54296
+52.5
 </td>
 <td style="text-align:right;">
-57.76496
+57.8
 </td>
 <td style="text-align:right;">
-65.71476
+65.7
 </td>
 <td style="text-align:right;">
-53.73346
+53.7
 </td>
 <td style="text-align:right;">
-52.30986
+52.3
 </td>
 <td style="text-align:right;">
-46.80863
+46.8
 </td>
 <td style="text-align:right;">
-43.17104
+43.2
 </td>
 </tr>
 <tr>
@@ -438,28 +438,28 @@ Earl Clark
 2009
 </td>
 <td style="text-align:right;">
-58.79270
+58.8
 </td>
 <td style="text-align:right;">
-60.15125
+60.2
 </td>
 <td style="text-align:right;">
-55.33419
+55.3
 </td>
 <td style="text-align:right;">
-39.39040
+39.4
 </td>
 <td style="text-align:right;">
-52.84559
+52.8
 </td>
 <td style="text-align:right;">
-46.08040
+46.1
 </td>
 <td style="text-align:right;">
-44.00097
+44.0
 </td>
 <td style="text-align:right;">
-46.44719
+46.4
 </td>
 </tr>
 <tr>
@@ -473,28 +473,28 @@ Austin Daye
 2009
 </td>
 <td style="text-align:right;">
-62.59482
+62.6
 </td>
 <td style="text-align:right;">
-60.78528
+60.8
 </td>
 <td style="text-align:right;">
-40.74957
+40.7
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
-36.15360
+36.2
 </td>
 <td style="text-align:right;">
-30.50676
+30.5
 </td>
 <td style="text-align:right;">
-29.96269
+30.0
 </td>
 <td style="text-align:right;">
-34.98066
+35.0
 </td>
 </tr>
 <tr>
@@ -508,28 +508,28 @@ James Johnson
 2009
 </td>
 <td style="text-align:right;">
-54.23014
+54.2
 </td>
 <td style="text-align:right;">
-55.71308
+55.7
 </td>
 <td style="text-align:right;">
-67.08291
+67.1
 </td>
 <td style="text-align:right;">
-65.71476
+65.7
 </td>
 <td style="text-align:right;">
-52.13529
+52.1
 </td>
 <td style="text-align:right;">
-55.42458
+55.4
 </td>
 <td style="text-align:right;">
-49.61629
+49.6
 </td>
 <td style="text-align:right;">
-52.99950
+53.0
 </td>
 </tr>
 <tr>
@@ -543,28 +543,28 @@ Jrue Holiday
 2009
 </td>
 <td style="text-align:right;">
-42.82376
+42.8
 </td>
 <td style="text-align:right;">
-41.13053
+41.1
 </td>
 <td style="text-align:right;">
-43.58547
+43.6
 </td>
 <td style="text-align:right;">
-41.41535
+41.4
 </td>
 <td style="text-align:right;">
-62.25703
+62.3
 </td>
 <td style="text-align:right;">
-56.98195
+57.0
 </td>
 <td style="text-align:right;">
-46.80863
+46.8
 </td>
 <td style="text-align:right;">
-46.44719
+46.4
 </td>
 </tr>
 <tr>
@@ -578,28 +578,28 @@ Ty Lawson
 2009
 </td>
 <td style="text-align:right;">
-30.65695
+30.7
 </td>
 <td style="text-align:right;">
-25.27993
+25.3
 </td>
 <td style="text-align:right;">
-42.77521
+42.8
 </td>
 <td style="text-align:right;">
-57.61496
+57.6
 </td>
 <td style="text-align:right;">
-56.21950
+56.2
 </td>
 <td style="text-align:right;">
-63.99009
+64.0
 </td>
 <td style="text-align:right;">
-53.82777
+53.8
 </td>
 <td style="text-align:right;">
-48.08527
+48.1
 </td>
 </tr>
 <tr>
@@ -613,28 +613,28 @@ Jeff Teague
 2009
 </td>
 <td style="text-align:right;">
-33.69865
+33.7
 </td>
 <td style="text-align:right;">
-42.39858
+42.4
 </td>
 <td style="text-align:right;">
-33.86239
+33.9
 </td>
 <td style="text-align:right;">
-55.59001
+55.6
 </td>
 <td style="text-align:right;">
-54.97648
+55.0
 </td>
 <td style="text-align:right;">
-59.31799
+59.3
 </td>
 <td style="text-align:right;">
-53.82777
+53.8
 </td>
 <td style="text-align:right;">
-52.99950
+53.0
 </td>
 </tr>
 <tr>
@@ -648,13 +648,13 @@ Hasheem Thabeet
 2009
 </td>
 <td style="text-align:right;">
-73.24078
+73.2
 </td>
 <td style="text-align:right;">
-69.66161
+69.7
 </td>
 <td style="text-align:right;">
-71.13419
+71.1
 </td>
 <td style="text-align:right;">
 NA
@@ -689,7 +689,7 @@ df &lt;- melt(draft, # Nossos dados até agora
            variable.name = &quot;Variavel&quot;, # Nome da coluna das variaveis
            value.name = &quot;TS&quot;) # Nome da coluna dos valores de cada variavel</code></pre>
 <blockquote>
-<h6 id="reparem-que-eu-não-especifiquei-as-measure.vars---a-função-entende-que-as-colunas-que-eu-não-especifiquei-como-id.vars-devem-ser-consideradas-as-variáveis-a-serem-empilhadas.">Reparem que eu não especifiquei as measure.vars - a função entende que as colunas que eu não especifiquei como id.vars devem ser consideradas as variáveis a serem “empilhadas”.</h6>
+<p>Reparem que eu não especifiquei as measure.vars - a função entende que as colunas que eu não especifiquei como id.vars devem ser consideradas as variáveis a serem “empilhadas”.</p>
 </blockquote>
 </div>
 <div id="visualizando-os-dados" class="section level3">
@@ -728,7 +728,6 @@ df %&gt;% filter(Atleta %in% head(x = df$Atleta, 1)) %&gt;%
   theme_minimal() +
   facet_grid(~Atleta) +
   theme(
-    # Removendo os títulos e textos dos eixos
     axis.title = element_blank(),
     axis.ticks = element_blank(),
     axis.text.y = element_blank(),
@@ -740,10 +739,71 @@ df %&gt;% filter(Atleta %in% head(x = df$Atleta, 1)) %&gt;%
 <p><img src="/post/2022-05-31-resultados-avaliacao-fisica/index.pt-br_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>Agora que construímos o gráfico utilizando as informações de apenas um atleta e de suas características em relação ao grupo avaliado, podemos brincar com as opções de customização do <code>ggplot2</code> e plotar um grupo de atletas lado a lado. Para fazer isso, basta alterar a <strong>primeira linha</strong> do gráfico onde utilizamos a função <code>filter()</code> para selecionar o primeiro atleta da tabela. Vamos plotar as 3 primeiras escolhas do NBA Draft de 2010 utlizando essa função (linha baixo) - o código completo do gráfico abaixo você encontra no final desse post.</p>
 <pre class="r"><code>df %&gt;% filter(Pick %in% c(1:3), Ano == 2010)</code></pre>
-<p><img src="images/nbadraft2013-2-01.png" /></p>
+<p><img src="plot2.png" /></p>
 <p>Vimos que calcular medidas como o Z-Score e T-Score é relativamente fácil no R e elas podem ser muito úteis para comparar os atletas em relação ao grupo avaliado e detectar os “destaques” pra cada variável. Ainda, um gráfico de barras circular pode ser facilmente construído com a função <code>coord_polar</code>. A partir daí, podemos brincar com os diferentes parâmetros do <code>ggplot2</code> para criar figuras mais eficientes e intuitivas de acordo com os nossos objetivos. Eu recomendo <a href="http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html">essa lista de tutoriais</a> que cobre cada aspecto do <code>ggplot2</code>, dependendo tipo de informação que você quer mostrar. Abaixo está a versão final do gráfico, construída alterando alguns desses parâmetros. Bons estudos <strong>🤓</strong></p>
 <p><img src="plot.png" /></p>
-<p><em>Código do último gráfico:</em></p>
+<blockquote>
+<details>
+<summary>
+<em>Código completo do gráfico (clique para ver):</em>
+</summary>
+<pre class="r"><code>library(forcats)
+
+pick.labs = c(&quot;Pick #1&quot;, &quot;Pick #2&quot;, &quot;Pick #3&quot;)
+names(pick.labs) &lt;- c(1,2,3)
+
+df %&gt;% filter(Pick %in% c(1:3), Ano == 2010) %&gt;%
+  ggplot() +
+  geom_col(aes(x = Variavel, y = TS, fill = TS), color = &quot;black&quot;) +
+  geom_hline(yintercept = 50, linetype = &quot;dashed&quot;) +
+  coord_polar(clip = &quot;off&quot;, start = .4) +
+  
+  
+  scale_fill_distiller(palette = &quot;RdBu&quot;, direction = 1,
+                       limits = c(30,70),
+                       labels = c(&quot;Abaixo da média&quot;, &quot; &quot;, &quot; &quot;, &quot; &quot;, &quot;Acima da média&quot;)) +
+  scale_y_continuous(
+    limits = c(-40, 80),
+    expand = c(0, 0),
+    breaks = c(20, 40, 60, 80)) + 
+  
+  scale_x_discrete(labels=c(&quot;Envergadura (cm)&quot; = &quot;Env. (cm)&quot;, 
+                            &quot;Salto em mov. (cm)&quot; = &quot;Salto em \n mov. (cm)&quot;,
+                            &quot;Salto parado (cm)&quot; = &quot;Salto\nparado(cm)&quot;)) +
+  
+  theme_minimal() +
+  
+  facet_wrap(~fct_relevel(Atleta, &#39;John Wall&#39;, &#39;Evan Turner&#39;, &#39;Derrick Favors&#39;) + Pick, 
+             nrow = 1, labeller = labeller(Pick = pick.labs)) +
+  
+  guides(fill=guide_legend(
+    label.position = &#39;bottom&#39;, 
+    title.position = &#39;top&#39;,
+    keywidth=.7,
+    label.theme = element_text(size = 8, color = &quot;black&quot;),
+    title.theme = element_blank(),
+    keyheight= .10,
+    default.unit=&quot;inch&quot;, 
+    title.hjust = .5,
+    title.vjust = 0,
+    label.vjust = 3,
+    nrow = 1)) +
+
+  theme(
+    # Removendo os títulos e textos dos eixos
+    axis.title = element_blank(),
+    axis.ticks = element_blank(),
+    axis.text.y = element_blank(),
+    axis.text.x = element_text(size = 6, face = &quot;bold&quot;, color = &quot;black&quot;, vjust = 2),
+    text = element_text(size = 16),
+    legend.position = &quot;bottom&quot;,
+    panel.spacing = unit(3, &quot;lines&quot;),
+    legend.spacing.x = unit(0, &#39;cm&#39;),
+    plot.background = element_rect(fill = &quot;white&quot;, color = &quot;white&quot;),
+    strip.text = element_text(size = 12, vjust = 3, face = &quot;bold&quot;),
+  )</code></pre>
 <pre><code>## Warning: Removed 1 rows containing missing values (position_stack).</code></pre>
 <p><img src="/post/2022-05-31-resultados-avaliacao-fisica/index.pt-br_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</details>
+</blockquote>
 </div>

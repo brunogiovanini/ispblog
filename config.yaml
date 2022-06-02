@@ -1,16 +1,15 @@
 baseurl: https://blogisp.netlify.app
-languageCode: en-us
+languageCode: pt-br
 theme: "hugo-theme-stack"
 paginate: 5
 title: Insights on Sports Performance
-
 draft: no
 
 # Change it to your Disqus shortname before using
-disqusShortname: hugo-theme-stack
+disqusShortname: insightsonsportsperformanceisp
 
 # GA Tracking ID
-googleAnalytics:
+googleAnalytics: 
 
 # Theme i18n support
 # Available values: ar, ca, de, el, en, es, fr, id, it, ja, ko, nl, pt-br, th, uk, zh-cn, zh-hk, zh-tw
