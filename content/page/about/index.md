@@ -13,6 +13,7 @@ menu:
       icon: user
     weight: -90
 title: Sobre nós
+comments: no
 ---
 
-Somos interessados em investigações e ideias para melhorar a prática profissional de atletas e treinadores esportivos. O propósito desse blog é divulgar ideias e mostrar ferramentas úteis para a solução de problemas relacionados ao desempenho esportivo.
+Criamos este espaço para mostrar ferramentas que auxiliam a prática profissional no meio do desempenho esportivo. Buscamos divulgar e ensinar maneiras simples de organização, processamento e visualização de dados para otimizar processos de tomada de decisão.
