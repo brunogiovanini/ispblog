@@ -1,5 +1,5 @@
 ---
-title: 'Visualizando os resultados da avalição física e as diferenças entre atletas do mesmo grupo no RStudio'
+title: Visualizando os resultados da avalição física e a diferença entre atletas no RStudio
 author: ''
 date: '2022-05-31'
 slug: resultados-avaliacao-fisica

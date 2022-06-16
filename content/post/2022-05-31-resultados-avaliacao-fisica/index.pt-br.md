@@ -1,5 +1,5 @@
 ---
-title: 'Visualizando os resultados da avalição física e as diferenças entre atletas do mesmo grupo no RStudio'
+title: Visualizando os resultados da avalição física e a diferença entre atletas no RStudio
 author: ''
 date: '2022-05-31'
 slug: resultados-avaliacao-fisica
@@ -25,109 +25,21 @@ Para isso, passaremos por duas etapas: processamento e visualização dos dados.
 
 Eu selecionei as seguintes variáveis: **altura (cm)**, **massa (Kg)**, **envergadura (cm)**, **altura de salto parado (cm)**, **altura de salto em movimento (cm)**, **repetições no supino (n)**, **teste de agilidade (s)** e **sprint (s)**. Depois de carregar os dados no R, vamos dar uma olhada nas primeiras linhas:
 
-
-
-
-```r
+``` r
 knitr::kable(head(draft,5), format = "html", digits = 2)
 ```
 
-<table>
- <thead>
-  <tr>
-   <th style="text-align:left;"> Atleta </th>
-   <th style="text-align:right;"> Pick </th>
-   <th style="text-align:right;"> Ano </th>
-   <th style="text-align:right;"> Altura (cm) </th>
-   <th style="text-align:right;"> Envergadura (cm) </th>
-   <th style="text-align:right;"> Massa (Kg) </th>
-   <th style="text-align:right;"> Supino (reps) </th>
-   <th style="text-align:right;"> Agilidade (s) </th>
-   <th style="text-align:right;"> Sprint (s) </th>
-   <th style="text-align:right;"> Salto em mov. (cm) </th>
-   <th style="text-align:right;"> Salto parado (cm) </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:left;"> Blake Griffin </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 2009 </td>
-   <td style="text-align:right;"> 204.47 </td>
-   <td style="text-align:right;"> 211.46 </td>
-   <td style="text-align:right;"> 112.49 </td>
-   <td style="text-align:right;"> 22 </td>
-   <td style="text-align:right;"> 10.95 </td>
-   <td style="text-align:right;"> 3.28 </td>
-   <td style="text-align:right;"> 90.17 </td>
-   <td style="text-align:right;"> 81.28 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Terrence Williams </td>
-   <td style="text-align:right;"> 11 </td>
-   <td style="text-align:right;"> 2009 </td>
-   <td style="text-align:right;"> 195.58 </td>
-   <td style="text-align:right;"> 205.74 </td>
-   <td style="text-align:right;"> 96.62 </td>
-   <td style="text-align:right;"> 9 </td>
-   <td style="text-align:right;"> 11.15 </td>
-   <td style="text-align:right;"> 3.18 </td>
-   <td style="text-align:right;"> 93.98 </td>
-   <td style="text-align:right;"> 77.47 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Gerald Henderson </td>
-   <td style="text-align:right;"> 12 </td>
-   <td style="text-align:right;"> 2009 </td>
-   <td style="text-align:right;"> 193.04 </td>
-   <td style="text-align:right;"> 208.92 </td>
-   <td style="text-align:right;"> 97.52 </td>
-   <td style="text-align:right;"> 8 </td>
-   <td style="text-align:right;"> 11.17 </td>
-   <td style="text-align:right;"> 3.14 </td>
-   <td style="text-align:right;"> 88.90 </td>
-   <td style="text-align:right;"> 80.01 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Tyler Hansbrough </td>
-   <td style="text-align:right;"> 13 </td>
-   <td style="text-align:right;"> 2009 </td>
-   <td style="text-align:right;"> 203.84 </td>
-   <td style="text-align:right;"> 212.09 </td>
-   <td style="text-align:right;"> 106.14 </td>
-   <td style="text-align:right;"> 18 </td>
-   <td style="text-align:right;"> 11.12 </td>
-   <td style="text-align:right;"> 3.27 </td>
-   <td style="text-align:right;"> 86.36 </td>
-   <td style="text-align:right;"> 69.85 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Earl Clark </td>
-   <td style="text-align:right;"> 14 </td>
-   <td style="text-align:right;"> 2009 </td>
-   <td style="text-align:right;"> 204.47 </td>
-   <td style="text-align:right;"> 219.71 </td>
-   <td style="text-align:right;"> 103.42 </td>
-   <td style="text-align:right;"> 5 </td>
-   <td style="text-align:right;"> 11.17 </td>
-   <td style="text-align:right;"> 3.35 </td>
-   <td style="text-align:right;"> 83.82 </td>
-   <td style="text-align:right;"> 72.39 </td>
-  </tr>
-</tbody>
-</table>
+<table><thead><tr class="header"><th style="text-align: left;"><p>Atleta</p></th><th style="text-align: right;"><p>Pick</p></th><th style="text-align: right;"><p>Ano</p></th><th style="text-align: right;"><p>Altura (cm)</p></th><th style="text-align: right;"><p>Envergadura (cm)</p></th><th style="text-align: right;"><p>Massa (Kg)</p></th><th style="text-align: right;"><p>Supino (reps)</p></th><th style="text-align: right;"><p>Agilidade (s)</p></th><th style="text-align: right;"><p>Sprint (s)</p></th><th style="text-align: right;"><p>Salto em mov. (cm)</p></th><th style="text-align: right;"><p>Salto parado (cm)</p></th></tr></thead><tbody><tr class="odd"><td style="text-align: left;"><p>Blake Griffin</p></td><td style="text-align: right;"><p>1</p></td><td style="text-align: right;"><p>2009</p></td><td style="text-align: right;"><p>204.47</p></td><td style="text-align: right;"><p>211.46</p></td><td style="text-align: right;"><p>112.49</p></td><td style="text-align: right;"><p>22</p></td><td style="text-align: right;"><p>10.95</p></td><td style="text-align: right;"><p>3.28</p></td><td style="text-align: right;"><p>90.17</p></td><td style="text-align: right;"><p>81.28</p></td></tr><tr class="even"><td style="text-align: left;"><p>Terrence Williams</p></td><td style="text-align: right;"><p>11</p></td><td style="text-align: right;"><p>2009</p></td><td style="text-align: right;"><p>195.58</p></td><td style="text-align: right;"><p>205.74</p></td><td style="text-align: right;"><p>96.62</p></td><td style="text-align: right;"><p>9</p></td><td style="text-align: right;"><p>11.15</p></td><td style="text-align: right;"><p>3.18</p></td><td style="text-align: right;"><p>93.98</p></td><td style="text-align: right;"><p>77.47</p></td></tr><tr class="odd"><td style="text-align: left;"><p>Gerald Henderson</p></td><td style="text-align: right;"><p>12</p></td><td style="text-align: right;"><p>2009</p></td><td style="text-align: right;"><p>193.04</p></td><td style="text-align: right;"><p>208.92</p></td><td style="text-align: right;"><p>97.52</p></td><td style="text-align: right;"><p>8</p></td><td style="text-align: right;"><p>11.17</p></td><td style="text-align: right;"><p>3.14</p></td><td style="text-align: right;"><p>88.90</p></td><td style="text-align: right;"><p>80.01</p></td></tr><tr class="even"><td style="text-align: left;"><p>Tyler Hansbrough</p></td><td style="text-align: right;"><p>13</p></td><td style="text-align: right;"><p>2009</p></td><td style="text-align: right;"><p>203.84</p></td><td style="text-align: right;"><p>212.09</p></td><td style="text-align: right;"><p>106.14</p></td><td style="text-align: right;"><p>18</p></td><td style="text-align: right;"><p>11.12</p></td><td style="text-align: right;"><p>3.27</p></td><td style="text-align: right;"><p>86.36</p></td><td style="text-align: right;"><p>69.85</p></td></tr><tr class="odd"><td style="text-align: left;"><p>Earl Clark</p></td><td style="text-align: right;"><p>14</p></td><td style="text-align: right;"><p>2009</p></td><td style="text-align: right;"><p>204.47</p></td><td style="text-align: right;"><p>219.71</p></td><td style="text-align: right;"><p>103.42</p></td><td style="text-align: right;"><p>5</p></td><td style="text-align: right;"><p>11.17</p></td><td style="text-align: right;"><p>3.35</p></td><td style="text-align: right;"><p>83.82</p></td><td style="text-align: right;"><p>72.39</p></td></tr></tbody></table>
 
 O próximo passo é normalizar essas variáveis para que possamos fazer comparações entre os atletas em relação a média do grupo. Para fazer isso, vamos por etapas. Primeiro, vamos utilizar a função `scale()` para transformar nossas variáveis em Z-Score (a função fará isso separadamente para cada coluna que indicarmos).
 
-
-```r
+``` r
 draft[,4:11] <- scale(draft[,4:11])
 ```
 
 Em seguida, vamos transformar esses valores em T-Scores com a fórmula abaixo.
 
-
-```r
+``` r
 draft[,4:11] <- (draft[,4:11] * 10) + 50
 ```
 
@@ -135,175 +47,11 @@ Temos agora os T-Scores de cada variável para todos os atletas. O valor 50 repr
 
 Precisamos lembrar que algumas das variáveis selecionadas estão em tempo (s) e, nos nossos testes, o menor tempo indica um melhor desempenho - ao contrário das outras medidas. Portanto, para que os T-Scores indiquem igualmente a condição de um desempenho "bom" ou "ruim", inverteremos (100 - T-Score) os valores das variáveis medidas em tempo. Dessa forma, temos que valores acima de 50 representam um "desempenho" acima da média. Vamos dar uma olhada no que temos até agora:
 
-
-
-
-```r
+``` r
 knitr::kable(head(draft,11), format = "html", digits = 1)
 ```
 
-<table>
- <thead>
-  <tr>
-   <th style="text-align:left;"> Atleta </th>
-   <th style="text-align:right;"> Pick </th>
-   <th style="text-align:right;"> Ano </th>
-   <th style="text-align:right;"> Altura (cm) </th>
-   <th style="text-align:right;"> Envergadura (cm) </th>
-   <th style="text-align:right;"> Massa (Kg) </th>
-   <th style="text-align:right;"> Supino (reps) </th>
-   <th style="text-align:right;"> Agilidade (s) </th>
-   <th style="text-align:right;"> Sprint (s) </th>
-   <th style="text-align:right;"> Salto em mov. (cm) </th>
-   <th style="text-align:right;"> Salto parado (cm) </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:left;"> Blake Griffin </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 2009 </td>
-   <td style="text-align:right;"> 58.8 </td>
-   <td style="text-align:right;"> 51.9 </td>
-   <td style="text-align:right;"> 63.4 </td>
-   <td style="text-align:right;"> 73.8 </td>
-   <td style="text-align:right;"> 56.8 </td>
-   <td style="text-align:right;"> 51.5 </td>
-   <td style="text-align:right;"> 51.0 </td>
-   <td style="text-align:right;"> 57.9 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Terrence Williams </td>
-   <td style="text-align:right;"> 11 </td>
-   <td style="text-align:right;"> 2009 </td>
-   <td style="text-align:right;"> 48.1 </td>
-   <td style="text-align:right;"> 46.2 </td>
-   <td style="text-align:right;"> 49.3 </td>
-   <td style="text-align:right;"> 47.5 </td>
-   <td style="text-align:right;"> 53.2 </td>
-   <td style="text-align:right;"> 59.3 </td>
-   <td style="text-align:right;"> 55.2 </td>
-   <td style="text-align:right;"> 53.0 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Gerald Henderson </td>
-   <td style="text-align:right;"> 12 </td>
-   <td style="text-align:right;"> 2009 </td>
-   <td style="text-align:right;"> 45.1 </td>
-   <td style="text-align:right;"> 49.4 </td>
-   <td style="text-align:right;"> 50.1 </td>
-   <td style="text-align:right;"> 45.5 </td>
-   <td style="text-align:right;"> 52.8 </td>
-   <td style="text-align:right;"> 62.4 </td>
-   <td style="text-align:right;"> 49.6 </td>
-   <td style="text-align:right;"> 56.3 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Tyler Hansbrough </td>
-   <td style="text-align:right;"> 13 </td>
-   <td style="text-align:right;"> 2009 </td>
-   <td style="text-align:right;"> 58.0 </td>
-   <td style="text-align:right;"> 52.5 </td>
-   <td style="text-align:right;"> 57.8 </td>
-   <td style="text-align:right;"> 65.7 </td>
-   <td style="text-align:right;"> 53.7 </td>
-   <td style="text-align:right;"> 52.3 </td>
-   <td style="text-align:right;"> 46.8 </td>
-   <td style="text-align:right;"> 43.2 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Earl Clark </td>
-   <td style="text-align:right;"> 14 </td>
-   <td style="text-align:right;"> 2009 </td>
-   <td style="text-align:right;"> 58.8 </td>
-   <td style="text-align:right;"> 60.2 </td>
-   <td style="text-align:right;"> 55.3 </td>
-   <td style="text-align:right;"> 39.4 </td>
-   <td style="text-align:right;"> 52.8 </td>
-   <td style="text-align:right;"> 46.1 </td>
-   <td style="text-align:right;"> 44.0 </td>
-   <td style="text-align:right;"> 46.4 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Austin Daye </td>
-   <td style="text-align:right;"> 15 </td>
-   <td style="text-align:right;"> 2009 </td>
-   <td style="text-align:right;"> 62.6 </td>
-   <td style="text-align:right;"> 60.8 </td>
-   <td style="text-align:right;"> 40.7 </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:right;"> 36.2 </td>
-   <td style="text-align:right;"> 30.5 </td>
-   <td style="text-align:right;"> 30.0 </td>
-   <td style="text-align:right;"> 35.0 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> James Johnson </td>
-   <td style="text-align:right;"> 16 </td>
-   <td style="text-align:right;"> 2009 </td>
-   <td style="text-align:right;"> 54.2 </td>
-   <td style="text-align:right;"> 55.7 </td>
-   <td style="text-align:right;"> 67.1 </td>
-   <td style="text-align:right;"> 65.7 </td>
-   <td style="text-align:right;"> 52.1 </td>
-   <td style="text-align:right;"> 55.4 </td>
-   <td style="text-align:right;"> 49.6 </td>
-   <td style="text-align:right;"> 53.0 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Jrue Holiday </td>
-   <td style="text-align:right;"> 17 </td>
-   <td style="text-align:right;"> 2009 </td>
-   <td style="text-align:right;"> 42.8 </td>
-   <td style="text-align:right;"> 41.1 </td>
-   <td style="text-align:right;"> 43.6 </td>
-   <td style="text-align:right;"> 41.4 </td>
-   <td style="text-align:right;"> 62.3 </td>
-   <td style="text-align:right;"> 57.0 </td>
-   <td style="text-align:right;"> 46.8 </td>
-   <td style="text-align:right;"> 46.4 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Ty Lawson </td>
-   <td style="text-align:right;"> 18 </td>
-   <td style="text-align:right;"> 2009 </td>
-   <td style="text-align:right;"> 30.7 </td>
-   <td style="text-align:right;"> 25.3 </td>
-   <td style="text-align:right;"> 42.8 </td>
-   <td style="text-align:right;"> 57.6 </td>
-   <td style="text-align:right;"> 56.2 </td>
-   <td style="text-align:right;"> 64.0 </td>
-   <td style="text-align:right;"> 53.8 </td>
-   <td style="text-align:right;"> 48.1 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Jeff Teague </td>
-   <td style="text-align:right;"> 19 </td>
-   <td style="text-align:right;"> 2009 </td>
-   <td style="text-align:right;"> 33.7 </td>
-   <td style="text-align:right;"> 42.4 </td>
-   <td style="text-align:right;"> 33.9 </td>
-   <td style="text-align:right;"> 55.6 </td>
-   <td style="text-align:right;"> 55.0 </td>
-   <td style="text-align:right;"> 59.3 </td>
-   <td style="text-align:right;"> 53.8 </td>
-   <td style="text-align:right;"> 53.0 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Hasheem Thabeet </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 2009 </td>
-   <td style="text-align:right;"> 73.2 </td>
-   <td style="text-align:right;"> 69.7 </td>
-   <td style="text-align:right;"> 71.1 </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:right;"> NA </td>
-  </tr>
-</tbody>
-</table>
+<table><thead><tr class="header"><th style="text-align: left;"><p>Atleta</p></th><th style="text-align: right;"><p>Pick</p></th><th style="text-align: right;"><p>Ano</p></th><th style="text-align: right;"><p>Altura (cm)</p></th><th style="text-align: right;"><p>Envergadura (cm)</p></th><th style="text-align: right;"><p>Massa (Kg)</p></th><th style="text-align: right;"><p>Supino (reps)</p></th><th style="text-align: right;"><p>Agilidade (s)</p></th><th style="text-align: right;"><p>Sprint (s)</p></th><th style="text-align: right;"><p>Salto em mov. (cm)</p></th><th style="text-align: right;"><p>Salto parado (cm)</p></th></tr></thead><tbody><tr class="odd"><td style="text-align: left;"><p>Blake Griffin</p></td><td style="text-align: right;"><p>1</p></td><td style="text-align: right;"><p>2009</p></td><td style="text-align: right;"><p>58.8</p></td><td style="text-align: right;"><p>51.9</p></td><td style="text-align: right;"><p>63.4</p></td><td style="text-align: right;"><p>73.8</p></td><td style="text-align: right;"><p>56.8</p></td><td style="text-align: right;"><p>51.5</p></td><td style="text-align: right;"><p>51.0</p></td><td style="text-align: right;"><p>57.9</p></td></tr><tr class="even"><td style="text-align: left;"><p>Terrence Williams</p></td><td style="text-align: right;"><p>11</p></td><td style="text-align: right;"><p>2009</p></td><td style="text-align: right;"><p>48.1</p></td><td style="text-align: right;"><p>46.2</p></td><td style="text-align: right;"><p>49.3</p></td><td style="text-align: right;"><p>47.5</p></td><td style="text-align: right;"><p>53.2</p></td><td style="text-align: right;"><p>59.3</p></td><td style="text-align: right;"><p>55.2</p></td><td style="text-align: right;"><p>53.0</p></td></tr><tr class="odd"><td style="text-align: left;"><p>Gerald Henderson</p></td><td style="text-align: right;"><p>12</p></td><td style="text-align: right;"><p>2009</p></td><td style="text-align: right;"><p>45.1</p></td><td style="text-align: right;"><p>49.4</p></td><td style="text-align: right;"><p>50.1</p></td><td style="text-align: right;"><p>45.5</p></td><td style="text-align: right;"><p>52.8</p></td><td style="text-align: right;"><p>62.4</p></td><td style="text-align: right;"><p>49.6</p></td><td style="text-align: right;"><p>56.3</p></td></tr><tr class="even"><td style="text-align: left;"><p>Tyler Hansbrough</p></td><td style="text-align: right;"><p>13</p></td><td style="text-align: right;"><p>2009</p></td><td style="text-align: right;"><p>58.0</p></td><td style="text-align: right;"><p>52.5</p></td><td style="text-align: right;"><p>57.8</p></td><td style="text-align: right;"><p>65.7</p></td><td style="text-align: right;"><p>53.7</p></td><td style="text-align: right;"><p>52.3</p></td><td style="text-align: right;"><p>46.8</p></td><td style="text-align: right;"><p>43.2</p></td></tr><tr class="odd"><td style="text-align: left;"><p>Earl Clark</p></td><td style="text-align: right;"><p>14</p></td><td style="text-align: right;"><p>2009</p></td><td style="text-align: right;"><p>58.8</p></td><td style="text-align: right;"><p>60.2</p></td><td style="text-align: right;"><p>55.3</p></td><td style="text-align: right;"><p>39.4</p></td><td style="text-align: right;"><p>52.8</p></td><td style="text-align: right;"><p>46.1</p></td><td style="text-align: right;"><p>44.0</p></td><td style="text-align: right;"><p>46.4</p></td></tr><tr class="even"><td style="text-align: left;"><p>Austin Daye</p></td><td style="text-align: right;"><p>15</p></td><td style="text-align: right;"><p>2009</p></td><td style="text-align: right;"><p>62.6</p></td><td style="text-align: right;"><p>60.8</p></td><td style="text-align: right;"><p>40.7</p></td><td style="text-align: right;"><p>NA</p></td><td style="text-align: right;"><p>36.2</p></td><td style="text-align: right;"><p>30.5</p></td><td style="text-align: right;"><p>30.0</p></td><td style="text-align: right;"><p>35.0</p></td></tr><tr class="odd"><td style="text-align: left;"><p>James Johnson</p></td><td style="text-align: right;"><p>16</p></td><td style="text-align: right;"><p>2009</p></td><td style="text-align: right;"><p>54.2</p></td><td style="text-align: right;"><p>55.7</p></td><td style="text-align: right;"><p>67.1</p></td><td style="text-align: right;"><p>65.7</p></td><td style="text-align: right;"><p>52.1</p></td><td style="text-align: right;"><p>55.4</p></td><td style="text-align: right;"><p>49.6</p></td><td style="text-align: right;"><p>53.0</p></td></tr><tr class="even"><td style="text-align: left;"><p>Jrue Holiday</p></td><td style="text-align: right;"><p>17</p></td><td style="text-align: right;"><p>2009</p></td><td style="text-align: right;"><p>42.8</p></td><td style="text-align: right;"><p>41.1</p></td><td style="text-align: right;"><p>43.6</p></td><td style="text-align: right;"><p>41.4</p></td><td style="text-align: right;"><p>62.3</p></td><td style="text-align: right;"><p>57.0</p></td><td style="text-align: right;"><p>46.8</p></td><td style="text-align: right;"><p>46.4</p></td></tr><tr class="odd"><td style="text-align: left;"><p>Ty Lawson</p></td><td style="text-align: right;"><p>18</p></td><td style="text-align: right;"><p>2009</p></td><td style="text-align: right;"><p>30.7</p></td><td style="text-align: right;"><p>25.3</p></td><td style="text-align: right;"><p>42.8</p></td><td style="text-align: right;"><p>57.6</p></td><td style="text-align: right;"><p>56.2</p></td><td style="text-align: right;"><p>64.0</p></td><td style="text-align: right;"><p>53.8</p></td><td style="text-align: right;"><p>48.1</p></td></tr><tr class="even"><td style="text-align: left;"><p>Jeff Teague</p></td><td style="text-align: right;"><p>19</p></td><td style="text-align: right;"><p>2009</p></td><td style="text-align: right;"><p>33.7</p></td><td style="text-align: right;"><p>42.4</p></td><td style="text-align: right;"><p>33.9</p></td><td style="text-align: right;"><p>55.6</p></td><td style="text-align: right;"><p>55.0</p></td><td style="text-align: right;"><p>59.3</p></td><td style="text-align: right;"><p>53.8</p></td><td style="text-align: right;"><p>53.0</p></td></tr><tr class="odd"><td style="text-align: left;"><p>Hasheem Thabeet</p></td><td style="text-align: right;"><p>2</p></td><td style="text-align: right;"><p>2009</p></td><td style="text-align: right;"><p>73.2</p></td><td style="text-align: right;"><p>69.7</p></td><td style="text-align: right;"><p>71.1</p></td><td style="text-align: right;"><p>NA</p></td><td style="text-align: right;"><p>NA</p></td><td style="text-align: right;"><p>NA</p></td><td style="text-align: right;"><p>NA</p></td><td style="text-align: right;"><p>NA</p></td></tr></tbody></table>
 
 Quase tudo pronto para plotarmos! Antes disso, precisamos colocar os dados em uma estrutura diferente. Ao invés de termos uma coluna para cada variável, nós "empilharemos" essas variáveis e repetiremos as informações que identificam cada atleta (Atleta, Ano e Pick). Para fazer isso, utilizaremos a função `melt()` do pacote `reshape2`. Essa função pede cinco argumentos:
 
@@ -317,8 +65,7 @@ Quase tudo pronto para plotarmos! Antes disso, precisamos colocar os dados em um
 >
 > `value.name =` O nome da nova coluna com os valores de cada variável
 
-
-```r
+``` r
 library(reshape2)
 
 df <- melt(draft, # Nossos dados até agora
@@ -335,8 +82,7 @@ Para visualizar esses dados, utlizaremos um ["gráfico de barras circular"](http
 
 Vamos começar a construir o gráfico utilizando apenas os dados de um atleta. Reparem que no código abaixo eu filtro nossos dados pelo nome do atleta que está na primeira linha. Essa mesma função nos servirá depois para olhar os dados de um atleta específico ou de um grupo de atletas.
 
-
-```r
+``` r
 library(tidyverse)
 
 df %>% filter(Atleta %in% head(x = df$Atleta, 1)) %>%
@@ -351,8 +97,7 @@ Ainda parece meio bagunçado... mas já fizemos alguma coisa. 😅
 
 Desenhamos uma linha pontilhada indicando o valor 50. Então já temos que este atleta está um pouco acima da média na maioria das variáveis. Vamos tornar esse gráfico circular utilizando a função `coord_polar()` e exibir o nome do atleta utilizando a função `facet_wrap()`.
 
-
-```r
+``` r
 df %>% filter(Atleta %in% head(x = df$Atleta, 1)) %>%
   ggplot() +
   geom_col(aes(x = Variavel, y = TS, fill = TS)) +
@@ -365,8 +110,7 @@ df %>% filter(Atleta %in% head(x = df$Atleta, 1)) %>%
 
 Estamos chegando lá! Vamos modificar um pouco esse gráfico dando atenção especial aos limites do eixo Y e as cores que indicam a magnitude to T-Score. Como sabemos que a maior parte dos valores cairá entre 20 e 80 (3 DP), podemos definir esses valores como o limite inferior e superior do eixo, respectivamente.
 
-
-```r
+``` r
 df %>% filter(Atleta %in% head(x = df$Atleta, 1)) %>%
   ggplot() +
   geom_col(aes(x = Variavel, y = TS, fill = TS), color = "black") +
@@ -396,8 +140,7 @@ df %>% filter(Atleta %in% head(x = df$Atleta, 1)) %>%
 
 Agora que construímos o gráfico utilizando as informações de apenas um atleta e de suas características em relação ao grupo avaliado, podemos brincar com as opções de customização do `ggplot2` e plotar um grupo de atletas lado a lado. Para fazer isso, basta alterar a **primeira linha** do gráfico onde utilizamos a função `filter()` para selecionar o primeiro atleta da tabela. Vamos plotar as 3 primeiras escolhas do NBA Draft de 2010 utlizando essa função (linha baixo) - o código completo do gráfico abaixo você encontra no final desse post.
 
-
-```r
+``` r
 df %>% filter(Pick %in% c(1:3), Ano == 2010)
 ```
 
@@ -415,13 +158,13 @@ Vimos que calcular medidas como o Z-Score e T-Score é relativamente fácil no R
 >
 > </summary>
 >
-> 
+>
 > ```r
 > library(forcats)
-> 
+>
 > pick.labs = c("Pick #1", "Pick #2", "Pick #3")
 > names(pick.labs) <- c(1,2,3)
-> 
+>
 > df %>% filter(Pick %in% c(1:3), Ano == 2010) %>%
 >   ggplot() +
 >   geom_col(aes(x = Variavel, y = TS, fill = TS), color = "black") +
@@ -458,7 +201,7 @@ Vimos que calcular medidas como o Z-Score e T-Score é relativamente fácil no R
 >     title.vjust = 0,
 >     label.vjust = 3,
 >     nrow = 1)) +
-> 
+>
 >   theme(
 >     # Removendo os títulos e textos dos eixos
 >     axis.title = element_blank(),
@@ -473,11 +216,11 @@ Vimos que calcular medidas como o Z-Score e T-Score é relativamente fácil no R
 >     strip.text = element_text(size = 12, vjust = 3, face = "bold"),
 >   )
 > ```
-> 
+>
 > ```
 > ## Warning: Removed 1 rows containing missing values (position_stack).
 > ```
-> 
+>
 > <img src="/post/2022-05-31-resultados-avaliacao-fisica/index.pt-br_files/figure-html/unnamed-chunk-12-1.png" width="672" />
 >
 > </details>
