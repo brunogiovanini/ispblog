@@ -39,8 +39,8 @@ params:
         lastUpdated: Jan 02, 2006 15:04 MST
 
     sidebar:
-        emoji: 📊
-        subtitle: Divulgando novas ideias sobre desempenho esportivo.  
+        emoji: 🤔
+        subtitle: Ideias sobre desempenho esportivo de maneira aplicada  
         avatar:
             enabled: true
             local: false

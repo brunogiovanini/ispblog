@@ -1,7 +1,7 @@
 ---
 title: Visualizando os resultados da avalição física e a diferença entre atletas no RStudio
 author: ''
-date: '2022-05-31'
+date: '2022-07-20'
 slug: resultados-avaliacao-fisica
 categories:
   - Tutoriais em R
@@ -11,7 +11,7 @@ description: ~
 image: header.png
 math: ~
 license: ~
-hidden: no
+hidden: yes
 comments: yes
 ---
 
