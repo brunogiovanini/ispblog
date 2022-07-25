@@ -7,6 +7,7 @@ categories:
   - Tutoriais em R
 tags:
   - R
+  - Avaliação física
 description: ~
 image: header.png
 math: ~

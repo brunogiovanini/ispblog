@@ -1,7 +1,7 @@
 baseurl: https://blogisp.netlify.app
 languageCode: pt-br
 theme: "hugo-theme-stack"
-paginate: 5
+paginate: 4
 title: Insights on Sports Performance
 draft: no
 
@@ -207,7 +207,7 @@ markup:
     goldmark:
         renderer:
             ## Set to true if you have HTML content inside Markdown
-            unsafe: false
+            unsafe: true
     tableOfContents:
         endLevel: 4
         ordered: true
