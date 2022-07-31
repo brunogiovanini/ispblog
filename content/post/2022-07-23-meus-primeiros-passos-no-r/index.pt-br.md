@@ -464,7 +464,7 @@ df.final
 
 ## **Trabalhando com dados reais**
 
-Até aqui fizemos operações simples mas eficazes pra resolver muitos problemas do dia-a-dia. Vamos trabalhar com dados reais para solucionar algumas questões no monitoramento de carga. Para baixar os dados, [**clique aqui**](#).
+Até aqui fizemos operações simples mas eficazes pra resolver muitos problemas do dia-a-dia. Vamos trabalhar com dados reais para solucionar algumas questões no monitoramento de carga. Para baixar os dados, [**clique aqui**](/files/carga.csv).
 
 Temos o seguinte cenário: recebemos os dados de carga interna correspondentes a uma semana de treinamento de uma equipe. Daiane, a preparadora física, precisa de um resumo dessa semana para conferir se as cargas realizadas foram ao encontro das cargas planejadas. Vamos calcular no R as seguintes variáveis e apresentá-las a Daiane:
 
