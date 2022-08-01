@@ -109,3 +109,11 @@ ggplot(resultados.fv)+
   xlab("V0") +
   theme_bw()
   ggsave("plot3.png", scale = 1)
+
+  
+  
+  
+  sprints20m <- sprints20m %>% rename(t_5m = `5`, t_10m = `10`, t_15m = `15`, t_20m = `20`)
+
+  write.csv(x = sprints20m, file = "sprints.csv", fileEncoding = "UTF-8")  
+  
