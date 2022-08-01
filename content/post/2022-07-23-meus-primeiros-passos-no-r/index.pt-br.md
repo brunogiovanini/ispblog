@@ -1,7 +1,7 @@
 ---
 title: Meus primeiros passos no RStudio para monitoramento de carga no esporte
 author: 'Bruno Giovanini'
-date: '2022-08-01'
+date: '2022-08-04'
 slug: 'meus-primeiros-passos-no-r'
 categories:
   - Tutoriais em R 

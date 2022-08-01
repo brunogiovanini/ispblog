@@ -1,7 +1,7 @@
 ---
 title: Criando perfil de força-velocidade de sprints curtos com o pacote {shorts} no RStudio
 author: 'Bruno Giovanini'
-date: '2022-08-01'
+date: ''
 slug: 'perfil-de-forca-velocidade-do-sprint'
 categories:
   - Tutoriais em R 
