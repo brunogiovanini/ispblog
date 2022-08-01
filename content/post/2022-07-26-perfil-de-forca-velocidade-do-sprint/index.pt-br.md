@@ -1,10 +1,10 @@
 ---
-title: "Criando perfil de força-velocidade de sprints curtos com o pacote {shorts} no RStudio"
-author: ''
-date: '2022-08-15'
-slug: perfil-de-forca-velocidade-do-sprint
+title: Criando perfil de força-velocidade de sprints curtos com o pacote {shorts} no RStudio
+author: 'Bruno Giovanini'
+date: '2022-08-01'
+slug: 'perfil-de-forca-velocidade-do-sprint'
 categories:
-  - Tutoriais em R
+  - Tutoriais em R 
 tags:
   - R
   - Avaliação física
@@ -604,6 +604,6 @@ Estratégias como o treinamento de sprints resistidos ou assistidos podem ser ef
 
 [^7]: Hicks, D. Schuster, J. G., Samozino, P., Morin, J. B. (2020) Improving Mechanical Effectiveness During Sprint Acceleration: Practical Recommendations and Guidelines. *Strength and Conditioning Journal*, *42*(5), 45-62 doi: 10.1519/SSC.0000000000000519
 
-O treinamento de sprints tem melhorado cada vez mais há muito tempo, por isso vale o lembrete: embora bem interessante, o perfil de força-velocidade é apenas uma das abordagens para dissecar as características mecânicas da fase de aceleração de sprint e identificar desdobramentos para o treinamento.
+O treinamento de sprints tem melhorado cada vez mais há muito tempo, por isso vale o lembrete: embora bem interessante, **o perfil de força-velocidade é apenas uma das abordagens para dissecar as características mecânicas da fase de aceleração de sprint e identificar desdobramentos para o treinamento**.
 
 Não tenha só uma ferramenta na caixa. **Bons estudos!**

@@ -12,7 +12,7 @@ description: ~
 image: header.png
 math: ~
 license: ~
-hidden: yes
+hidden: no
 comments: yes
 ---
 
@@ -173,11 +173,7 @@ Vimos que calcular medidas como o Z-Score e T-Score é relativamente fácil no R
 
 > <details>
 >
-> <summary>
->
-> *Código completo do gráfico (clique para ver):*
->
-> </summary>
+> <summary>*Código completo do gráfico (clique para ver):*</summary>
 >
 > ```{r}
 > library(forcats)
