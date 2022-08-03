@@ -1,7 +1,7 @@
 ---
 title: Meus primeiros passos no RStudio para monitoramento de carga no esporte
 author: 'Bruno Giovanini'
-date: '2022-08-04'
+date: '2022-08-03'
 slug: 'meus-primeiros-passos-no-r'
 categories:
   - Tutoriais em R 
@@ -22,7 +22,7 @@ comments: yes
 
 ## **Contexto**
 
-Eu entrei em contato com o R e o RStudio pela primeira vez em 2018. Na época, eu estava aprendendo a realizar análises estatísticas para fins acadêmicos. E até que deu certo - eu sabia exatamente como fazer um **teste t** ou uma **ANOVA** no R, mas a linguagem ainda era um pouco confusa pra mim. Eu não sabia o porquê de algumas (*muitas*) coisas. Quando a análise não ia como esperado, eu tinha muita dificuldade em resolver e, quando não desistia, ia aos trancos e barrancos depois de muito apostar na "tentativa e erro". Até aqui eu tinha certeza: **eu não vou usar o R pra NADA além disso.**
+Eu entrei em contato com o R e o RStudio pela primeira vez em 2018. Na época, eu estava aprendendo a realizar análises estatísticas para fins acadêmicos. E até que deu certo - eu sabia exatamente como fazer um **teste t** ou uma **ANOVA** no R, mas a linguagem ainda era um pouco confusa pra mim. Eu não sabia o porquê de algumas (*muitas*) coisas. Quando a análise não ia como esperado, eu tinha muita dificuldade em resolver e, quando não desistia, ia aos trancos e barrancos apostando na "tentativa e erro". Até aqui eu tinha certeza: **ainda bem que eu não vou usar o R pra NADA além disso.**
 
 ## **Um ano depois...**
 
@@ -30,7 +30,7 @@ O ano era 2019. Meu relacionamento com o R havia melhorado, mas ainda ficávamos
 
 Até que eu esbarrei no pacote **`{shiny}`** do RStudio. Esse pacote permitiria integrar as análises feitas no R com a construção de páginas interativas na web. E daí veio a primeira ideia: ao invés de ter que abrir o computador e o Excel toda vez para consultar e calcular carga de treino, eu posso ter um **app online** que atualiza e calcula esses valores automaticamente. **E bônus: todos da comissão técnica poderiam ter acesso**. Isso facilitaria a troca de informações entre departamentos e eu teria acesso às informações rapidamente e de uma forma mais confiável.
 
-**Eu confesso que não sei de onde saiu a confiança pra ter essa ideia.** Eu basicamente queria construir um foguete sem nem entender como um motor funciona. Mas ainda assim me parecia possível: eu achava que tinha alguma familiaridade com o R; eu tinha o Google (*e o Stack OverFlow* 🙏) pra me ajudar; era um recurso gratuito (sem despesas pro meu clube 😬), então decidi que valeria a pena tentar a sorte nesse caminho.
+**Eu confesso que não sei de onde saiu a confiança pra ter essa ideia.** Eu basicamente queria construir um foguete sem nem entender como um motor funciona. Mas ainda assim me parecia possível: eu achava que tinha alguma familiaridade com o R; eu tinha o Google pra me ajudar; era um recurso gratuito (sem despesas pro meu clube 😬), então decidi que valeria a pena tentar a sorte nesse caminho.
 
 ## **E agora?**
 
@@ -698,4 +698,8 @@ Se você chegou até aqui, espero que tenha aprendido uma ou duas coisas novas s
 
 Agora que sabemos calcular algumas variáveis, uma das vantagens do R é poder criar rotinas e funções que realizam esses cálculos e geram relatórios, figuras e dashboards de forma automática. Essa vantagem, em particular, tem dois desdobramentos que eu gosto na área do desempenho esportivo: (1) possibilita análises reprodutíveis e (2) facilita enxergar ordem no caos.
 
-Mas isso vai ser assunto para um outro momento. Até a próxima e bons estudos. 🤓
+Mas isso vai ser assunto para um outro momento.
+
+Lembram que eu comentei que não usaria o R pra mais nada além de estatística em 2018? É\... cá estou escrevendo sobre como você pode usar o R pra organizar seus dados e facilitar sua prática profissional. É como diz o ditado: a língua é mesmo o chicote do corpo.🤷‍♂️
+
+Até a próxima e bons estudos. 🤓
