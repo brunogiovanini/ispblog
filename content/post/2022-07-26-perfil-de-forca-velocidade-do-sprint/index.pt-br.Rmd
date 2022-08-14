@@ -40,7 +40,7 @@ Sprints curtos são definidos como uma corrida máxima, partindo do repouso, ao 
 
 [^2]: Haugen T.A., Breitschadel F., Seiler S. (2019). Sprint mechanical variables in elite athletes: Are force-velocity profiles sport specific or individual? *PLoS ONE*, 14(7). <https://doi.org/10.1371/journal.pone.0215551>
 
-A avaliação de sprints curtos está presente em muitas baterias de teste e pode ser feita utilizando fotocélulas ou análise de vídeo. Além do tempo de sprint, configurações do teste (como a captura de diferentes distâncias) podem fornecer outras variáveis que permitem abordagens mais detalhadas sobre as propriedades mecânicas do sprint.
+A avaliação de sprints curtos está presente em muitas baterias de testes e pode ser feita utilizando fotocélulas, análise de vídeo ou outros equipamentos. Além do tempo de sprint, configurações do teste (como a captura de diferentes distâncias) podem fornecer outras variáveis que permitem abordagens mais detalhadas sobre as propriedades mecânicas do sprint.
 
 > Nesse post vamos mostrar uma destas abordagens, criando um perfil de força-velocidade de sprints curtos com o pacote `{shorts}`[^3]. O resultado dessa abordagem vai nos permitir descrever as diferenças individuais dentro do grupo e quantificar os efeitos do treinamento ao longo da temporada.
 
@@ -58,7 +58,7 @@ Batendo o olho nos dados, percebemos que estão em *wide format* (formato largo)
 
 ## Processando os dados
 
-O primeiro passo será passar os dados para formato longo. Para isso, usaremos a função `melt()` do pacote `{reshape2}` ([já usamos essa função antes aqui](/post/meus-primeiros-passos-no-r)). Com essa função, empilhamos os dados de forma que as variáveis de identificação (`id.vars`) se repetem ao longo das colunas empilhadas.
+O primeiro passo será passar os dados para formato longo. Para isso, usaremos a função `melt()` do pacote `{reshape2}` ([já usamos essa função antes aqui](/post/resultados-avaliacao-fisica/)). Com essa função, empilhamos os dados de forma que as variáveis de identificação (`id.vars`) se repetem ao longo das colunas empilhadas.
 
 ```{r}
 # Carregando o pacote {reshape2}
@@ -105,7 +105,7 @@ atleta <- subset(sprints, ID == 5)
 atleta
 ```
 
-Vamos usar a função `model_timing_gates()` para estimar os valores de MSS (*maximal sprint speed*), TAU (*relative acceleration*) e MAC (*maximal acceleration*). Para esse modelo, usaremos um fator de correção fixo de 0,3 segundos, seguindo recomendação da literatura (*veja referência [5]*).
+Já que usamos fotocélulas (*timing gates*) para registrar o tempo dos sprints, vamos usar a função `model_timing_gates()` para estimar os valores de MSS (*maximal sprint speed*), TAU (*relative acceleration*) e MAC (*maximal acceleration*). Para esse modelo, usaremos um fator de correção fixo de 0,3 segundos, seguindo recomendação da literatura (*veja referência [4]*).
 
 ```{r}
 # Carregando o pacote {shorts}
@@ -156,6 +156,8 @@ find_power_critical_distance(MSS =modelo$parameters$MSS,
                              )
 ```
 
+As funções de utilidade `predict_()` ou `find_()` já serão uma baita mão na roda para planejar os treinamentos de sprint com mais precisão para cada atleta.
+
 ### Perfil de força-velocidade
 
 Para criar o perfil de força-velocidade de apenas um atleta, usaremos a função `make_FV_profile()`, que se baseia na abordagem de Samonizo et al. (2016)[^5]. Essa função estima outros parâmetros cinéticos usando os valores de `MSS`, `MAC`, `massa corporal` e algumas informações adicionais. A estrutura da função é similar a de criação do modelo inicial:
@@ -201,7 +203,7 @@ ggplot() +
   theme_bw()
 ```
 
-Alterações na relação F-V podem ser monitoradas para avaliar o efeito do treinamento ao longo da temporada - com atenção às características mais importantes para cada atleta/modalidade. Além disso, podemos dentro desse mesmo gráfico o perfil de outros atletas da equipe para fins de comparação. Por exemplo, vamos repetir os passos anteriores com outro atleta e adicionar novas informações ao gráfico:
+Alterações na relação F-V podem ser monitoradas para avaliar o efeito do treinamento ao longo da temporada - com atenção às características mais importantes para cada atleta/modalidade. Além disso, podemos dentro desse mesmo gráfico plotar o perfil de outros atletas da equipe para fins de comparação. Vamos repetir os passos anteriores com outro atleta e adicionar novas informações ao gráfico:
 
 ```{r, echo = FALSE, include= FALSE}
 
@@ -398,4 +400,4 @@ Estratégias como o treinamento de sprints resistidos ou assistidos podem ser ef
 
 A avaliação e o treinamento de sprints tem melhorado cada vez mais há muito tempo, por isso vale o lembrete: embora bem interessante, **o perfil de força-velocidade é apenas uma das abordagens para dissecar as características mecânicas da fase de aceleração de sprint e identificar desdobramentos para o treinamento**.
 
-Não tenha só uma ferramenta na caixa. **Bons estudos**.
+Não tenha só uma ferramenta na caixa. Bons estudos 🤓.

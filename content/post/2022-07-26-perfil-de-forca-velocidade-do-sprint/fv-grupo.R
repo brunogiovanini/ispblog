@@ -90,7 +90,8 @@ resultados.fv <- merge(resultados.fv, sprints %>% filter(Distancia == 20) %>% se
 
 ggplot(resultados.fv)+
   aes(color = Posição) +
-  geom_segment(aes(x = 0 , y = F0, xend= V0, yend = 0 ), size = 1)+
+  geom_segment(aes(x = 0 , y = F0, xend= V0, yend = 0 ), size = 1, color = "black", alpha = .1)+
+  geom_segment(data = subset(resultados.fv, ID == 9), aes(x = 0 , y = F0, xend= V0, yend = 0 ), size = 1, color = "purple") +
   scale_x_continuous(expand = c(0,0))+
   scale_y_continuous(expand = c(0,0))+
   xlab("V0") +
