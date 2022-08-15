@@ -18,7 +18,7 @@ comments: yes
 
 
 
-`por Vitor Bertoli Nascimento & Bruno Giovanini`
+`por Bruno Giovanini & Vitor Bertoli Nascimento`
 
 ------------------------------------------------------------------------
 

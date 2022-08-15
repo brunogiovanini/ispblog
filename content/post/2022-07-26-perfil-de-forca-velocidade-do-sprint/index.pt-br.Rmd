@@ -30,7 +30,7 @@ sprints <- read.csv("sprints.csv", encoding = "UTF-8")
 names(sprints)[5:8] <- c("t_5m", "t_10m", "t_15m", "t_20m")
 ```
 
-`por Vitor Bertoli Nascimento & Bruno Giovanini`
+`por Bruno Giovanini & Vitor Bertoli Nascimento`
 
 ------------------------------------------------------------------------
 
